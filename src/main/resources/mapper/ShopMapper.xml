@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.o2o.dao.ShopMapper" >
+  <resultMap id="BaseResultMap" type="com.o2o.pojo.Shop" >
+    <constructor >
+      <idArg column="shop_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="area_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="shop_category_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_describle" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="advice" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    shop_id, priority, owner_id, area_id, shop_category_id, user_id, status, Img, shop_name, 
+    shop_describle, shop_phone, shop_adress, advice, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from td_shop
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from td_shop
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyColumn="shop_id" keyProperty="shopId" parameterType="com.o2o.pojo.Shop" >
+    insert into td_shop (shop_id, priority, owner_id, 
+      area_id, shop_category_id, user_id, 
+      status, Img, shop_name, 
+      shop_describle, shop_phone, shop_adress, 
+      advice, create_time, update_time
+      )
+    values (#{shopId,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, 
+      #{areaId,jdbcType=INTEGER}, #{shopCategoryId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
+      #{shopDescrible,jdbcType=VARCHAR}, #{shopPhone,jdbcType=VARCHAR}, #{shopAdress,jdbcType=VARCHAR}, 
+      #{advice,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.o2o.pojo.Shop" >
+    insert into td_shop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="shopCategoryId != null" >
+        shop_category_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="img != null" >
+        Img,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="shopDescrible != null" >
+        shop_describle,
+      </if>
+      <if test="shopPhone != null" >
+        shop_phone,
+      </if>
+      <if test="shopAdress != null" >
+        shop_adress,
+      </if>
+      <if test="advice != null" >
+        advice,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="shopCategoryId != null" >
+        #{shopCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDescrible != null" >
+        #{shopDescrible,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null" >
+        #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAdress != null" >
+        #{shopAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null" >
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.o2o.pojo.Shop" >
+    update td_shop
+    <set >
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="shopCategoryId != null" >
+        shop_category_id = #{shopCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        Img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDescrible != null" >
+        shop_describle = #{shopDescrible,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null" >
+        shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAdress != null" >
+        shop_adress = #{shopAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null" >
+        advice = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.o2o.pojo.Shop" >
+    update td_shop
+    set priority = #{priority,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER},
+      shop_category_id = #{shopCategoryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      Img = #{img,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_describle = #{shopDescrible,jdbcType=VARCHAR},
+      shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      shop_adress = #{shopAdress,jdbcType=VARCHAR},
+      advice = #{advice,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </update>
+</mapper>

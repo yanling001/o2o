@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.o2o.dao.LineMapper" >
+  <resultMap id="BaseResultMap" type="com.o2o.pojo.Line" >
+    <constructor >
+      <idArg column="line_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="line_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="line_link" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="line_img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="line_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    line_id, line_name, line_link, line_img, priority, line_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_head_line
+    where line_id = #{lineId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_head_line
+    where line_id = #{lineId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.o2o.pojo.Line" >
+    insert into tb_head_line (line_id, line_name, line_link, 
+      line_img, priority, line_status, 
+      create_time, update_time)
+    values (#{lineId,jdbcType=INTEGER}, #{lineName,jdbcType=VARCHAR}, #{lineLink,jdbcType=VARCHAR}, 
+      #{lineImg,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{lineStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.o2o.pojo.Line" >
+    insert into tb_head_line
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lineId != null" >
+        line_id,
+      </if>
+      <if test="lineName != null" >
+        line_name,
+      </if>
+      <if test="lineLink != null" >
+        line_link,
+      </if>
+      <if test="lineImg != null" >
+        line_img,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="lineStatus != null" >
+        line_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lineId != null" >
+        #{lineId,jdbcType=INTEGER},
+      </if>
+      <if test="lineName != null" >
+        #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="lineLink != null" >
+        #{lineLink,jdbcType=VARCHAR},
+      </if>
+      <if test="lineImg != null" >
+        #{lineImg,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="lineStatus != null" >
+        #{lineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.o2o.pojo.Line" >
+    update tb_head_line
+    <set >
+      <if test="lineName != null" >
+        line_name = #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="lineLink != null" >
+        line_link = #{lineLink,jdbcType=VARCHAR},
+      </if>
+      <if test="lineImg != null" >
+        line_img = #{lineImg,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="lineStatus != null" >
+        line_status = #{lineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where line_id = #{lineId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.o2o.pojo.Line" >
+    update tb_head_line
+    set line_name = #{lineName,jdbcType=VARCHAR},
+      line_link = #{lineLink,jdbcType=VARCHAR},
+      line_img = #{lineImg,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      line_status = #{lineStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where line_id = #{lineId,jdbcType=INTEGER}
+  </update>
+</mapper>

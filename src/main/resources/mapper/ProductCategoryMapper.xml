@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.o2o.dao.ProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.o2o.pojo.ProductCategory" >
+    <constructor >
+      <idArg column="product_category_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_category_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="shop_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    product_category_id, product_category_name, priority, shop_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from td_product_category
+    where product_category_id = #{productCategoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from td_product_category
+    where product_category_id = #{productCategoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.o2o.pojo.ProductCategory" >
+    insert into td_product_category (product_category_id, product_category_name, 
+      priority, shop_id, create_time
+      )
+    values (#{productCategoryId,jdbcType=INTEGER}, #{productCategoryName,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.o2o.pojo.ProductCategory" >
+    insert into td_product_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productCategoryId != null" >
+        product_category_id,
+      </if>
+      <if test="productCategoryName != null" >
+        product_category_name,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productCategoryName != null" >
+        #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.o2o.pojo.ProductCategory" >
+    update td_product_category
+    <set >
+      <if test="productCategoryName != null" >
+        product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where product_category_id = #{productCategoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.o2o.pojo.ProductCategory" >
+    update td_product_category
+    set product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where product_category_id = #{productCategoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

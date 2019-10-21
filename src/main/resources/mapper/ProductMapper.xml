@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.o2o.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.o2o.pojo.Product" >
+    <constructor >
+      <idArg column="product_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_describle" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_img_address" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_price" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_count_price" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="shop_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_category_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    product_id, product_name, product_describle, product_img_address, product_price, 
+    product_count_price, priority, status, shop_id, product_category_id, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from td_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from td_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.o2o.pojo.Product" >
+    insert into td_product (product_id, product_name, product_describle, 
+      product_img_address, product_price, product_count_price, 
+      priority, status, shop_id, 
+      product_category_id, create_time, update_time
+      )
+    values (#{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productDescrible,jdbcType=VARCHAR}, 
+      #{productImgAddress,jdbcType=VARCHAR}, #{productPrice,jdbcType=VARCHAR}, #{productCountPrice,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
+      #{productCategoryId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.o2o.pojo.Product" >
+    insert into td_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productDescrible != null" >
+        product_describle,
+      </if>
+      <if test="productImgAddress != null" >
+        product_img_address,
+      </if>
+      <if test="productPrice != null" >
+        product_price,
+      </if>
+      <if test="productCountPrice != null" >
+        product_count_price,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescrible != null" >
+        #{productDescrible,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgAddress != null" >
+        #{productImgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="productCountPrice != null" >
+        #{productCountPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.o2o.pojo.Product" >
+    update td_product
+    <set >
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescrible != null" >
+        product_describle = #{productDescrible,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgAddress != null" >
+        product_img_address = #{productImgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        product_price = #{productPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="productCountPrice != null" >
+        product_count_price = #{productCountPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id = #{productCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.o2o.pojo.Product" >
+    update td_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_describle = #{productDescrible,jdbcType=VARCHAR},
+      product_img_address = #{productImgAddress,jdbcType=VARCHAR},
+      product_price = #{productPrice,jdbcType=VARCHAR},
+      product_count_price = #{productCountPrice,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      product_category_id = #{productCategoryId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+</mapper>
