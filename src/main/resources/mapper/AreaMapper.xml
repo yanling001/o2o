@@ -92,4 +92,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where area_id = #{areaId,jdbcType=INTEGER}
   </update>
+  <select id="findAreasList" resultMap="BaseResultMap" >
+    select   <include refid="Base_Column_List" />
+    from tb_area
+  </select>
 </mapper>

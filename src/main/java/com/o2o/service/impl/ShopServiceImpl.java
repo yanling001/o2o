@@ -4,6 +4,7 @@ import com.o2o.common.ShopMessge;
 import com.o2o.common.enmu.Shopenum;
 import com.o2o.dao.ShopMapper;
 import com.o2o.pojo.Shop;
+import com.o2o.pojo.vo.ShopVo;
 import com.o2o.service.ShopServcie;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 @Service("shopService")
@@ -25,20 +27,59 @@ public class ShopServiceImpl implements ShopServcie {
         if (shop==null){
             return  ShopMessge.createSucceful(Shopenum.DEFAULT.getCode(),Shopenum.DEFAULT.getMsg());
         }
-        int i=shopMapper.insert(shop);
-        if (i<=0){
-            return  ShopMessge.createfail("数据库操作失败");
 
-        }else{
-          if (shopImg!=null){
+          if (shopImg!=null) {
+              int i=shopMapper.insert(shop);
+              if (i<=0){
+                  return  ShopMessge.createfail("数据库操作失败");
+
+              }
               //存储图片
-              addShopping(shop,shopImg,path);
-              shopMapper.insert(shop);
+              addShopping(shop, shopImg, path);
           }
+
             return ShopMessge.createSucceful();
         }
 
+    @Override
+    public ShopVo findShopVo(Integer id) {
+        return shopMapper.findShopVo(id);
     }
+
+    @Override
+    public ShopMessge updateShop(Shop shop, CommonsMultipartFile shopImg, String path) {
+        if (shop==null){
+            return  ShopMessge.createSucceful(Shopenum.DEFAULT.getCode(),Shopenum.DEFAULT.getMsg());
+        }
+
+        if (shopImg!=null){
+            //删除旧的图片
+            //存储图片
+            addShopping(shop,shopImg,path);
+
+        }
+        int i=shopMapper.updateByPrimaryKeySelective(shop);
+        if (i<=0){
+            return  ShopMessge.createfail("数据库操作失败");
+
+        }
+        return ShopMessge.createSucceful();
+    }
+
+    @Override
+    public ShopMessge getShopList(ShopVo shopCondition, int pageIndex, int pageSize) {
+        int rowLine;
+        if (pageIndex>0)
+         rowLine = (pageIndex-1)*pageSize;
+        else rowLine=0;
+        List<ShopVo> list=shopMapper.findShopList(shopCondition,rowLine,pageSize);
+        int shopcount= shopMapper.findShopListNum(shopCondition);
+        if (list!=null){
+            return ShopMessge.createSucceful(shopcount,list);
+        }else return ShopMessge.createfail("没有此信息");
+
+    }
+
 
     private void addShopping(Shop shop, CommonsMultipartFile shopImg,String path) {
         //获取文件的路径

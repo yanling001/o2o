@@ -6,10 +6,10 @@ $(function() {
 
     var shopInfoUrl = '/myo2o/shop/getshopbyid?shopId=1';
     // var shopInfoUrl = '/myo2o/shop/getshopbyid?shopId=' + shopId;
-    var initUrl = '/myo2o/shop/index';
-    var editShopUrl = '/myo2o/shop/registershop';
+    var initUrl = '/o2o/shopmin/init';
+    var editShopUrl = '/o2o/shopmin/insert.action';
     if (isEdit) {
-        editShopUrl = '/myo2o/shop/modifyshop';
+        editShopUrl = '/myo2o/shopmin/modifyshop';
     }
 
     function getInfo(shopId) {
@@ -50,7 +50,7 @@ $(function() {
                         + item.areaName + '</option>';
                 });
                 $('#shop-category').html(tempHtml);
-                $('#shop-category').removeAttr('disabled');
+            //    $('#shop-category').removeAttr('disabled');
                 $('#area').html(tempAreaHtml);
             }
         });
@@ -62,28 +62,24 @@ $(function() {
         getCategory();
     }
 
-    $('#submit').click(function() {
+    $('#sub').click(function() {
         var shop = {};
 
         shop.shopName = $('#shop-name').val();
-        shop.shopAddr = $('#shop-addr').val();
-        shop.phone = $('#shop-phone').val();
-        shop.shopDesc = $('#shop-desc').val();
+        shop.shopAdress = $('#shop-addr').val();
+        shop.shopPhone = $('#shop-phone').val();
+        shop.shopDescrible = $('#shop-desc').val();
 
-        shop.shopCategory = {
-            shopCategoryId : $('#shop-category').find('option').not(function() {
+        shop.shopCategoryId = $('#shop-category').find('option').not(function() {
                 return !this.selected;
-            }).data('id')
-        };
-        shop.area = {
-            areaId : $('#area').find('option').not(function() {
+            }).data('id');
+        shop.areaId = $('#area').find('option').not(function() {
                 return !this.selected;
-            }).data('id')
-        };
+            }).data('id');
 
-        var shopImg = $("#shop-img")[0].files[0];
-        var formData = new FormData();
-        formData.append('shopImg', shopImg);
+        var Img = $("#shop-img")[0].files[0];
+        var  formData = new FormData();
+        formData.append('Img', Img);
         formData.append('shopStr', JSON.stringify(shop));
         var verifyCodeActual = $('#j_captcha').val();
         if (!verifyCodeActual) {

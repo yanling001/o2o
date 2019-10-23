@@ -1,6 +1,7 @@
 package com.o2o.common;
 
 
+import com.o2o.pojo.vo.ShopVo;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.o2o.common.enmu.Shopenum;
@@ -27,7 +28,7 @@ public class ShopMessge implements Serializable {
     private int count;
     //返回商铺的集合
 
-    private List<Shop> shopList;
+    private List<ShopVo> shopList;
     public ShopMessge(){
         super();
     }
@@ -37,7 +38,7 @@ public class ShopMessge implements Serializable {
     public ShopMessge(int state,String desc,Shop shop){
         this.state=state; this.desc=desc; this.shop=shop;
     }
-    public ShopMessge(int state,String desc,int count ,List<Shop> shopList){
+    public ShopMessge(int state,String desc,int count ,List<ShopVo> shopList){
         this.state=state; this.desc=desc; this.count=count; this.shopList=shopList;
     }
 
@@ -57,7 +58,7 @@ public class ShopMessge implements Serializable {
         return count;
     }
 
-    public List<Shop> getShopList() {
+    public List<ShopVo> getShopList() {
         return shopList;
     }
 
@@ -69,6 +70,10 @@ public class ShopMessge implements Serializable {
 
     public static ShopMessge createSucceful(){
         return new ShopMessge(Shopenum.SUCCESS.getCode(),Shopenum.SUCCESS.getMsg());
+
+    }
+    public static ShopMessge createSucceful(int count,List<ShopVo> shopList){
+        return new ShopMessge(Shopenum.SUCCESS.getCode(),Shopenum.SUCCESS.getMsg(),count,shopList);
 
     }
 

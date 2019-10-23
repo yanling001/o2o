@@ -20,9 +20,36 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <resultMap id="ShopVoResultMap" type="com.o2o.pojo.vo.ShopVo" >
+    <constructor >
+      <idArg column="shop_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="area_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="shop_category_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_describle" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shop_adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="advice" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+    <association property="area"  javaType="com.o2o.pojo.Area">
+        <id column="area_id" property="areaId"/>
+        <result column="area_name" property="areaName"/>
+    </association>
+    <association property="shopCategory" javaType="com.o2o.pojo.ShopCategory">
+      <id column="shop_category_id" property="shopCategoryId"/>
+      <result column="shop_category_name" property="shopCategoryName"/>
+    </association>
+  </resultMap>
   <sql id="Base_Column_List" >
-    shop_id, priority, owner_id, area_id, shop_category_id, user_id, status, Img, shop_name, 
-    shop_describle, shop_phone, shop_adress, advice, create_time, update_time
+    td_shop.shop_id, td_shop.priority, td_shop.owner_id, td_shop.area_id, td_shop.shop_category_id, td_shop.user_id, td_shop.status, td_shop.Img, td_shop.shop_name,
+    td_shop.shop_describle, td_shop.shop_phone, td_shop.shop_adress, td_shop.advice, td_shop.create_time, td_shop.update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -211,4 +238,60 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where shop_id = #{shopId,jdbcType=INTEGER}
   </update>
+  <select id="findShopVo" resultMap="ShopVoResultMap" parameterType="java.lang.Integer">
+    select  <include refid="Base_Column_List" /> ,tb_area.area_id,tb_area.area_name,
+    td_shop_category.shop_category_id, td_shop_category.shop_category_name
+    from  td_shop, tb_area,td_shop_category where td_shop.shop_id=#{id} and td_shop.area_id=tb_area.area_id and  td_shop.shop_category_id=td_shop_category.shop_category_id;
+  </select>
+  <!--查询shop列表-->
+  <select id="findShopList" resultMap="ShopVoResultMap" >
+    select  <include refid="Base_Column_List" /> ,tb_area.area_id,tb_area.area_name,
+    td_shop_category.shop_category_id, td_shop_category.shop_category_name
+    from  td_shop, tb_area,td_shop_category
+    <where>
+      <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
+           and td_shop.shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
+      </if>
+      <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
+       and  td_shop.area_id=#{shopCondition.areaId}
+      </if>
+      <if test="shopCondition.status!=null">
+         and  td_shop.status=#{shopCondition.status}
+      </if>
+      <if test="shopCondition.shopName!=null">
+        and td_shop.shop_name like '%${shopCondition.shopName}%'
+      </if>
+
+    and td_shop.area_id=tb_area.area_id and
+    td_shop.shop_category_id=td_shop_category.shop_category_id
+    </where>
+    order by
+    td_shop.priority
+    desc
+    limit #{rowIndex},#{pageSize};
+  </select>
+
+  <!--获取查询shop列表的总数-->
+  <select id="findShopListNum" resultType="java.lang.Integer" >
+    select count(1)
+    from  td_shop, tb_area,td_shop_category
+    <where>
+      <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
+        and td_shop.shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
+      </if>
+      <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
+        and  td_shop.area_id=#{shopCondition.areaId}
+      </if>
+      <if test="shopCondition.status!=null">
+        and  td_shop.status=#{shopCondition.status}
+      </if>
+      <if test="shopCondition.shopName!=null">
+        and td_shop.shop_name like '%${shopCondition.shopName}%'
+      </if>
+
+      and td_shop.area_id=tb_area.area_id and
+      td_shop.shop_category_id=td_shop_category.shop_category_id
+    </where>
+
+  </select>
 </mapper>
