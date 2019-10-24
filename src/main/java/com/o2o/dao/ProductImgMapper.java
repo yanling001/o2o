@@ -2,6 +2,8 @@ package com.o2o.dao;
 
 import com.o2o.pojo.ProductImg;
 
+import java.util.List;
+
 public interface ProductImgMapper {
     int deleteByPrimaryKey(Integer productImgId);
 
@@ -14,4 +16,5 @@ public interface ProductImgMapper {
     int updateByPrimaryKeySelective(ProductImg record);
 
     int updateByPrimaryKey(ProductImg record);
+    int insetProductImgs(List<ProductImg> list);
 }

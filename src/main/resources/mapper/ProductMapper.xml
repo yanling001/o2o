@@ -177,4 +177,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where product_id = #{productId,jdbcType=INTEGER}
   </update>
+  <select id="selectproductList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select   <include refid="Base_Column_List" />
+    from  td_product where shop_id=#{shopId}
+  </select>
 </mapper>

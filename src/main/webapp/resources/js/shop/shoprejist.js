@@ -4,12 +4,12 @@ $(function() {
 
     var isEdit = shopId ? true : false;
 
-    var shopInfoUrl = '/myo2o/shop/getshopbyid?shopId=1';
+    var shopInfoUrl = '/o2o/shopmin/getshopbyid?shopId='+shopId;
     // var shopInfoUrl = '/myo2o/shop/getshopbyid?shopId=' + shopId;
     var initUrl = '/o2o/shopmin/init';
     var editShopUrl = '/o2o/shopmin/insert.action';
     if (isEdit) {
-        editShopUrl = '/myo2o/shopmin/modifyshop';
+        editShopUrl = '/o2o/shopmin/update.action';
     }
 
     function getInfo(shopId) {
@@ -63,8 +63,11 @@ $(function() {
     }
 
     $('#sub').click(function() {
-        var shop = {};
 
+        var shop = {};
+         if (isEdit){
+             shop.shopId=shopId;
+         }
         shop.shopName = $('#shop-name').val();
         shop.shopAdress = $('#shop-addr').val();
         shop.shopPhone = $('#shop-phone').val();

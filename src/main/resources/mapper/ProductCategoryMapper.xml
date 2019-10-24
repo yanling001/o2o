@@ -94,4 +94,27 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where product_category_id = #{productCategoryId,jdbcType=INTEGER}
   </update>
+  <select id="findproductcategoryList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT   <include refid="Base_Column_List" />
+     FROM td_product_category
+    where  shop_id=#{shopId}
+  </select>
+  <!--批量插入-->
+  <insert id="batchInsertProductCategory" parameterType="java.util.List"  >
+    insert into td_product_category ( product_category_name,
+      priority, shop_id, create_time
+      )
+    values
+    <foreach collection="list" item="productCategory" index="index" separator=",">
+      ( #{productCategory.productCategoryName,jdbcType=VARCHAR},
+      #{productCategory.priority,jdbcType=INTEGER}, #{productCategory.shopId,jdbcType=INTEGER}, #{productCategory.createTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+  <delete id="deleteProductCategory" >
+    delete from  td_product_category
+    where shop_id=#{shopId}
+    and  product_category_id=#{productCategoryId}
+  </delete>
+
 </mapper>

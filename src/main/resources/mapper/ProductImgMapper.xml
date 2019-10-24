@@ -105,4 +105,14 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where product_img_id = #{productImgId,jdbcType=INTEGER}
   </update>
+  <insert id="insetProductImgs" parameterType="java.util.List">
+    insert  into  td_product_img (img_addres, img_describle,
+      priority, product_id, create_time)
+      values
+    <foreach collection="list" separator="," index="index" item="item">
+      ( #{item.imgAddres,jdbcType=VARCHAR}, #{item.imgDescrible,jdbcType=VARCHAR},
+      #{item.priority,jdbcType=INTEGER}, #{item.productId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
 </mapper>
