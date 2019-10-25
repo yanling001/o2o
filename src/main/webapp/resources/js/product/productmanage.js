@@ -1,136 +1,102 @@
 $(function() {
-    var shopId = 1;
-    var listUrl = '/o2o/productmin/getproductlist?shopId=' + shopId;
-    var addUrl = '/o2o/productmin/addproductcategorys';
-    var deleteUrl = '/o2o/shop/removeproductcategory';
+	var shopId = 1;
+	var listUrl = '/o2o/productmin/getproductlist?pageIndex=1&pageSize=9999&shopId='
+			+ shopId;
+	var deleteUrl = '/o2o/productmin/deleteproduct';
 
-    $.getJSON(listUrl, function(data) {
-        if (data.success) {
-            var dataList = data.data;
-            $('.category-wrap').html('');
-            var tempHtml = '';
-            dataList
-                .map(function(item, index) {
-                    tempHtml += ''
-                        + '<div class="row row-product-category now">'
-                        + '<div class="col-33 product-category-name">'
-                        + item.productCategoryName
-                        + '</div>'
-                        + '<div class="col-33">'
-                        + item.priority
-                        + '</div>'
-                        + '<div class="col-33"><a href="#" class="button delete" data-id="'
-                        + item.productCategoryId
-                        + '">删除</a></div>' + '</div>';
-                });
-            $('.category-wrap').append(tempHtml);
-        }
-    });
+	function getList() {
+		$.getJSON(listUrl, function(data) {
+			if (data.success) {
+				var productList = data.data;
+				var tempHtml = '';
+				productList.map(function(item, index) {
+					var textOp = "下架";
+					var contraryStatus = 0;
+					if (item.status == 0) {
+						textOp = "上架";
+						contraryStatus = 1;
+					} else {
+						contraryStatus = 0;
+					}
+					tempHtml += '' + '<div class="row row-product">'
+							+ '<div class="col-30">'
+							+ item.productName
+							+ '</div>'
+							+ '<div class="col-20">'
+							+ item.priority
+							+ '</div>'
+							+ '<div class="col-50">'
+							+ '<a href="#" class="edit" data-id="'
+							+ item.productId
+							+ '" data-status="'
+							+ item.status
+							+ '">编辑</a>'
+							+ '<a href="#" class="delete" data-id="'
+							+ item.productId
+							+ '" data-status="'
+							+ contraryStatus
+							+ '">'
+							+ textOp
+							+ '</a>'
+							+ '<a href="#" class="preview" data-id="'
+							+ item.productId
+							+ '" data-status="'
+							+ item.status
+							+ '">预览</a>'
+							+ '</div>'
+							+ '</div>';
+				});
+				$('.product-wrap').html(tempHtml);
+			}
+		});
+	}
 
-    function getList() {
-        $
-            .getJSON(
-                listUrl,
-                function(data) {
-                    if (data.success) {
-                        var dataList = data.data;
-                        $('.category-wrap').html('');
-                        var tempHtml = '';
-                        dataList
-                            .map(function(item, index) {
-                                tempHtml += ''
-                                    + '<div class="row row-product-category now">'
-                                    + '<div class="col-33 product-category-name">'
-                                    + item.productName
-                                    + '</div>'
-                                    + '<div class="col-33">'
-                                    + item.priority
-                                    + '</div>'
-                                    + '<div class="col-33"><a href="/o2o/productmin/updatepage" class="button delete" data-id="'
-                                    + item.productId
-                                    + '">编辑</a></div>'
-                                    + '<div class="col-33"><a href="#" class="button delete" data-id="'
-                                    + item.productId
-                                    + '">下架</a></div>'
-                                    + '<div class="col-33"><a href="#" class="button delete" data-id="'
-                                    + item.productId
-                                    + '">预览</a></div>'
-                                    + '</div>';
-                            });
-                        $('.category-wrap').append(tempHtml);
-                    }
-                });
-    }
-    getList();
+	getList();
 
-    $('#submit').click(function() {
-        var tempArr = $('.temp');
-        var productCategoryList = [];
-        tempArr.map(function(index, item) {
-            var tempObj = {};
-            tempObj.productCategoryName = $(item).find('.category').val();
-            tempObj.priority = $(item).find('.priority').val();
-            if (tempObj.productCategoryName && tempObj.priority) {
-                productCategoryList.push(tempObj);
-            }
-        });
-        $.ajax({
-            url : addUrl,
-            type : 'POST',
-            data : JSON.stringify(productCategoryList),
-            contentType : 'application/json',
-            success : function(data) {
-                if (data.success) {
-                    $.toast('提交成功！');
-                    getList();
-                } else {
-                    $.toast('提交失败！');
-                }
-            }
-        });
-    });
+	function deleteItem(id, enableStatus) {
+		var product = {};
+		product.productId = id;
+		product.Status = enableStatus;
+		$.confirm('确定么?', function() {
+			$.ajax({
+				url : deleteUrl,
+				type : 'POST',
+				data : {
+					productStr : JSON.stringify(product),
+					statusChange : true
+				},
+				dataType : 'json',
+				success : function(data) {
+					if (data.success) {
+						$.toast('操作成功！');
+						getList();
+					} else {
+						$.toast('操作失败！');
+					}
+				}
+			});
+		});
+	}
 
-    $('#new')
-        .click(
-            function() {
-                var tempHtml = '<div class="row row-product-category temp">'
-                    + '<div class="col-33"><input class="category-input category" type="text" placeholder="分类名"></div>'
-                    + '<div class="col-33"><input class="category-input priority" type="number" placeholder="优先级"></div>'
-                    + '<div class="col-33"><a href="/o2o/productmin/updatepage" class="button delete">编辑</a></div>'
-                    + '<div class="col-33"><a href="#" class="button delete">下架</a></div>'
-                    + '<div class="col-33"><a href="#" class="button delete">预览</a></div>'
-                    + '</div>';
-                $('.category-wrap').append(tempHtml);
-            });
+	$('.product-wrap')
+			.on(
+					'click',
+					'a',
+					function(e) {
+						var target = $(e.currentTarget);
+						if (target.hasClass('edit')) {
+							window.location.href = '/o2o/productmin/productoperation?productId='
+									+ e.currentTarget.dataset.id;
+						} else if (target.hasClass('delete')) {
+							deleteItem(e.currentTarget.dataset.id,
+									e.currentTarget.dataset.status);
+						} else if (target.hasClass('preview')) {
+							window.location.href = '/o2o/productmin/productdetail?productId='
+									+ e.currentTarget.dataset.id;
+						}
+					});
 
-    $('.category-wrap').on('click', '.row-product-category.now .delete',
-        function(e) {
-            var target = e.currentTarget;
-            $.confirm('确定么?', function() {
-                $.ajax({
-                    url : deleteUrl,
-                    type : 'POST',
-                    data : {
-                        productCategoryId : target.dataset.id,
-                        shopId : shopId
-                    },
-                    dataType : 'json',
-                    success : function(data) {
-                        if (data.success) {
-                            $.toast('删除成功！');
-                            getList();
-                        } else {
-                            $.toast('删除失败！');
-                        }
-                    }
-                });
-            });
-        });
-
-    $('.category-wrap').on('click', '.row-product-category.temp .delete',
-        function(e) {
-            console.log($(this).parent().parent());
-            $(this).parent().parent().remove();
-
-        });
+	$('#new').click(function() {
+		window.location.href = '/o2o/productmin/productoperation';
+	});
 });
