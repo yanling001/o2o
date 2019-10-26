@@ -8,4 +8,5 @@ public interface ProductCategoryService {
      List<ProductCategory> findProductCategory(Integer shopId);
      int deleteproductCategory(Integer productCategoryid,Integer shopId);
      void batchInsertProductCategory(List<ProductCategory> list);
+
 }

@@ -127,4 +127,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where line_id = #{lineId,jdbcType=INTEGER}
   </update>
+  <select id="selectLines" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+    from  tb_head_line;
+  </select>
+
 </mapper>

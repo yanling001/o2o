@@ -18,4 +18,5 @@ public interface ShopCategoryMapper {
     int updateByPrimaryKey(ShopCategory record);
 
     List<ShopCategory> findParent(ShopCategory shopCategory);
+    List<ShopCategory> getFirstLine(ShopCategory shopCategory);
 }

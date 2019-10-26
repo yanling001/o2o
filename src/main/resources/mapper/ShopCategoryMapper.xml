@@ -140,4 +140,14 @@
     </if>
     </where>
   </select>
+  <select id="getFirstLine" resultMap="BaseResultMap" parameterType="com.o2o.pojo.ShopCategory">
+    select
+    <include refid="Base_Column_List" />
+    from td_shop_category
+    <where>
+      <if test="parentId==null" >
+        shop_category_id=null
+      </if>
+    </where>
+  </select>
 </mapper>

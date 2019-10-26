@@ -13,6 +13,7 @@ public class LocalAuth {
 
     private Date createTime;
 
+
     private Date updateTime;
 
     public LocalAuth(Integer localAuthId, Integer userId, String userName, String password, Date createTime, Date updateTime) {

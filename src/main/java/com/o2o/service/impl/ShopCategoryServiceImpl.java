@@ -16,4 +16,9 @@ public class ShopCategoryServiceImpl implements ShopCategoryService {
     public List<ShopCategory> getParents(ShopCategory shopCategory) {
         return shopCategoryMapper.findParent(shopCategory);
     }
+
+    @Override
+    public List<ShopCategory> getFirstLine(ShopCategory shopCategory) {
+        return shopCategoryMapper.getFirstLine(shopCategory);
+    }
 }
